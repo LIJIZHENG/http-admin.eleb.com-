@@ -6,6 +6,8 @@ use App\Goodsaccount;
 use App\Goodsclass;
 use App\Goodsnews;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,9 +21,14 @@ class GoodsaccountController extends Controller
     }
     //显示商家管理列表
     public function index(Request $request){
-        $query=$request->query();
-        $rows=Goodsaccount::where('name','like',"%{$request->name}%")->paginate(1);
-        return view('goodsaccount.index',compact('rows','query'));
+        if(Auth::user()){
+            $query=$request->query();
+            $rows=Goodsaccount::where('name','like',"%{$request->name}%")->paginate(1);
+            return view('goodsaccount.index',compact('rows','query'));
+        }else{
+            session()->flash('success','请登录!');
+            return redirect()->route('login.create');
+        }
     }
     //显示添加商家
     public function create(){
@@ -64,9 +71,16 @@ class GoodsaccountController extends Controller
         ]);
         DB::transaction(function ()use($request) {
             $fileName = $request->file('logo')->store('public/logo');
+            $client = App::make('aliyun-oss');
+            try{
+                $client->uploadFile(getenv('OSS_BUCKET'), $fileName,storage_path('app/'.$fileName));
+            } catch(OssException $e) {
+                printf($e->getMessage() . "\n");
+                return;
+            }
             $add=Goodsnews::create([
                 'shop_name' => $request->name,
-                'shop_img' => url(Storage::url($fileName)),
+                'shop_img' =>'https://lijizheng-laravel.oss-cn-beijing.aliyuncs.com/'.$fileName,
                 'brand'=> $request->brand,
                 'on_time' => $request->on_time,
                 'fengniao' => $request->fengniao,
@@ -83,7 +97,7 @@ class GoodsaccountController extends Controller
                 'name' => $request->name,
                 'password' => bcrypt($request->password),
                 'email' => $request->email,
-                'logo' => url(Storage::url($fileName)),
+                'logo' =>'https://lijizheng-laravel.oss-cn-beijing.aliyuncs.com/'.$fileName,
                 'goods_class_id' => $request->goods_class_id,
                 'is_by' => 1,
                 'goodsnews_id'=>$add->id
@@ -134,10 +148,17 @@ class GoodsaccountController extends Controller
         ]);
         if($request->logo){
             $fileName=$request->file('logo')->store('public/logo');
+            $client = App::make('aliyun-oss');
+            try{
+                $client->uploadFile(getenv('OSS_BUCKET'), $fileName,storage_path('app/'.$fileName));
+            } catch(OssException $e) {
+                printf($e->getMessage() . "\n");
+                return;
+            }
             $goodsaccount->update([
                 'name'=>$request->name,
                 'email'=>$request->email,
-                'logo'=>url(Storage::url($fileName)),
+                'logo'=>'https://lijizheng-laravel.oss-cn-beijing.aliyuncs.com/'.$fileName,
                 'goods_class_id'=>$request->goods_class_id,
                 'is_by'=>1
             ]);

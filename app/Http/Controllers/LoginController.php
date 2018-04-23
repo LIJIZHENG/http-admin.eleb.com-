@@ -33,7 +33,7 @@ class LoginController extends Controller
     }
     public function destroy(){
         Auth::logout();
-        session()->flash('success','突出成功!');
+        session()->flash('success','退出成功!');
         return redirect()->route('login.create');
     }
 }

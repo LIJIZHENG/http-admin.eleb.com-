@@ -21,7 +21,7 @@
 
             <div class="form-group">
                 <label for="exampleInputFile">商家图片</label>
-                <img src="{{\Illuminate\Support\Facades\Storage::url($goodsaccount->logo)}}" alt="">
+                <img src="{{$goodsaccount->logo}}" alt="">
                 <input type="file" id="exampleInputFile" name="logo">
             </div>
 

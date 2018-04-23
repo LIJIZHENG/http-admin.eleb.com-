@@ -17,8 +17,13 @@ class AdminsController extends Controller
         ]);
     }
     public function index(){
-        $rows=Admins::all();
-        return view('admins.index',compact('rows'));
+        if(Auth::user()){
+            $rows=Admins::all();
+            return view('admins.index',compact('rows'));
+        }else{
+            session()->flash('success','请登录!');
+            return redirect()->route('login.create');
+        }
     }
     public function create(){
         return view('admins.create');

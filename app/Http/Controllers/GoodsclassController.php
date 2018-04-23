@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Goodsclass;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use OSS\Core\OssException;
 
 class GoodsclassController extends Controller
 {
@@ -16,8 +18,13 @@ class GoodsclassController extends Controller
     }
     //显示商品分类列表
     public function index(){
-        $rows=Goodsclass::all();
-        return view('goodsclass.index',compact('rows'));
+        if(Auth::user()){
+            $rows=Goodsclass::all();
+            return view('goodsclass.index',compact('rows'));
+        }else{
+            session()->flash('success','请登录!');
+            return redirect()->route('login.create');
+        }
     }
     //显示商品添加页面
     public function create(){
@@ -38,9 +45,16 @@ class GoodsclassController extends Controller
             'captcha.captcha'=>'验证码不正确!'
         ]);
         $fileName=$request->file('goods_class_logo')->store('public/logo');
+        $client = App::make('aliyun-oss');
+        try{
+            $client->uploadFile(getenv('OSS_BUCKET'), $fileName,storage_path('app/'.$fileName));
+        } catch(OssException $e) {
+            printf($e->getMessage() . "\n");
+            return;
+        }
         Goodsclass::create([
             'goods_class_name'=>$request->goods_class_name,
-            'goods_class_logo'=>$fileName
+            'goods_class_logo'=>'https://lijizheng-laravel.oss-cn-beijing.aliyuncs.com/'.$fileName
         ]);
         session()->flash('success','添加成功!');
         return redirect()->route('goodsclass.index');
@@ -67,9 +81,16 @@ class GoodsclassController extends Controller
         ]);
         if($request->goods_class_logo){
             $fileName=$request->file('goods_class_logo')->store('public/logo');
+            $client = App::make('aliyun-oss');
+            try{
+                $client->uploadFile(getenv('OSS_BUCKET'), $fileName,storage_path('app/'.$fileName));
+            } catch(OssException $e) {
+                printf($e->getMessage() . "\n");
+                return;
+            }
             $goodsclass->update([
                 'goods_class_name'=>$request->goods_class_name,
-                'goods_class_logo'=>$fileName
+                'goods_class_logo'=>'https://lijizheng-laravel.oss-cn-beijing.aliyuncs.com/'.$fileName
             ]);
         }else{
             $goodsclass->update([

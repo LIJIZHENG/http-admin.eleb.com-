@@ -13,7 +13,7 @@
             <tr data-id="{{$row['id']}}">
                 <td>{{$row['id']}}</td>
                 <td>{{$row['goods_class_name']}}</td>
-                <td><img src="{{\Illuminate\Support\Facades\Storage::url($row['goods_class_logo'])}}" alt=""></td>
+                <td><img src="{{$row['goods_class_logo']}}" alt=""></td>
                 <td>
                     <a href="{{route('goodsclass.edit',['goodsclass'=>$row])}}" class="btn btn-warning">修改</a>
                     <button class="btn btn-primary">删除</button>

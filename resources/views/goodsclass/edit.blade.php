@@ -8,7 +8,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputFile">商品图片</label>
-            <img src="{{\Illuminate\Support\Facades\Storage::url($goodsclass->goods_class_logo)}}" alt="">
+            <img src="{{$goodsclass->goods_class_logo}}" alt="">
             <input type="file" id="exampleInputFile" name="goods_class_logo">
         </div>
         <div class="form-group">
