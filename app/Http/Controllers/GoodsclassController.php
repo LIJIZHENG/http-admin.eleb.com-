@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Goodsaccount;
 use App\Goodsclass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -34,35 +35,33 @@ class GoodsclassController extends Controller
     public function store(Request $request){
         $this->validate($request,[
             'goods_class_name'=>'required|min:2',
-            'goods_class_logo'=>'required|image',
+            'goods_class_logo'=>'required',
             'captcha'=>'required|captcha'
         ],[
             'goods_class_name.required'=>'商品名称不能为空!',
             'goods_class_name.min'=>'商品名称不能小于2!',
             'goods_class_logo.required'=>'商品图片不能为空!',
-            'goods_class_logo.image'=>'商品图片错误!',
             'captcha.required'=>'验证码不能为空!',
             'captcha.captcha'=>'验证码不正确!'
         ]);
-        $fileName=$request->file('goods_class_logo')->store('public/logo');
-        $client = App::make('aliyun-oss');
-        try{
-            $client->uploadFile(getenv('OSS_BUCKET'), $fileName,storage_path('app/'.$fileName));
-        } catch(OssException $e) {
-            printf($e->getMessage() . "\n");
-            return;
-        }
         Goodsclass::create([
             'goods_class_name'=>$request->goods_class_name,
-            'goods_class_logo'=>'https://lijizheng-laravel.oss-cn-beijing.aliyuncs.com/'.$fileName
+            'goods_class_logo'=>$request->goods_class_logo
         ]);
         session()->flash('success','添加成功!');
         return redirect()->route('goodsclass.index');
     }
     //删除商品数据
     public function destroy(Goodsclass $goodsclass){
-        $goodsclass->delete();
-        echo 'success';
+//        var_dump($goodsclass->id);die;
+        $row=Goodsaccount::all()->where('goods_class_id','=',$goodsclass->id)->first();
+//        var_dump($row);die;
+        if($row){
+           echo json_encode('该分类下有商品不能删除!');
+        }else{
+            $goodsclass->delete();
+            echo 'success';
+        }
     }
     //显示修改页面
     public function edit(Goodsclass $goodsclass){
@@ -80,17 +79,10 @@ class GoodsclassController extends Controller
             'captcha.captcha'=>'验证码不正确!'
         ]);
         if($request->goods_class_logo){
-            $fileName=$request->file('goods_class_logo')->store('public/logo');
-            $client = App::make('aliyun-oss');
-            try{
-                $client->uploadFile(getenv('OSS_BUCKET'), $fileName,storage_path('app/'.$fileName));
-            } catch(OssException $e) {
-                printf($e->getMessage() . "\n");
-                return;
-            }
+
             $goodsclass->update([
                 'goods_class_name'=>$request->goods_class_name,
-                'goods_class_logo'=>'https://lijizheng-laravel.oss-cn-beijing.aliyuncs.com/'.$fileName
+                'goods_class_logo'=>$request->goods_class_logo
             ]);
         }else{
             $goodsclass->update([

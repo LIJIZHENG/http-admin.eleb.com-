@@ -8,3 +8,6 @@ Route::resource('login','LoginController');
 Route::delete('logout', 'LoginController@destroy')->name('logout');
 Route::get('revise', 'AdminsController@revise')->name('revise');
 Route::post('revise', 'AdminsController@revise')->name('revise');
+Route::post('/upload', 'UploadController@upload');
+Route::resource('activity','ActivityController');
+
