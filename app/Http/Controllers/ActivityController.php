@@ -41,9 +41,14 @@ class ActivityController extends Controller
             'start.required'=>'活动开始时间不能为空!',
             'end.required'=>'活动开始时间不能为空!'
         ]);
-        Activity::create(['name'=>$request->name,'contents'=>$request->contents,'start'=>$request->start,'end'=>$request->end]);
-        session()->flash('success','添加成功!');
-        return redirect()->route('activity.index');
+        if(strtotime($request->start)>=strtotime(date('Y-m-d',time())) && strtotime($request->start)<=strtotime($request->end)){
+            Activity::create(['name'=>$request->name,'contents'=>$request->contents,'start'=>$request->start,'end'=>$request->end]);
+            session()->flash('success','添加成功!');
+            return redirect()->route('activity.index');
+        }else{
+            session()->flash('success','活动开始时间不能是无效的时间!');
+            return redirect()->route('activity.create');
+        }
     }
     public function destroy(Activity $activity){
         $activity->delete();
@@ -65,8 +70,13 @@ class ActivityController extends Controller
             'start.required'=>'活动开始时间不能为空!',
             'end.required'=>'活动开始时间不能为空!'
         ]);
-        $activity->update(['name'=>$request->name,'contents'=>$request->contents,'start'=>$request->start,'end'=>$request->end]);
-        session()->flash('success','修改成功!');
-        return redirect()->route('activity.index');
+        if(strtotime($request->start)>=strtotime(date('Y-m-d',time())) && strtotime($request->start)<=strtotime($request->end)) {
+            $activity->update(['name' => $request->name, 'contents' => $request->contents, 'start' => $request->start, 'end' => $request->end]);
+            session()->flash('success', '修改成功!');
+            return redirect()->route('activity.index');
+        }else{
+            session()->flash('success','活动开始时间不能是无效的时间!');
+            return redirect()->route('activity.edit',['activity'=>$activity]);
+        }
     }
 }
