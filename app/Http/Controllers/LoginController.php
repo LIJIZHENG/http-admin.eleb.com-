@@ -25,7 +25,7 @@ class LoginController extends Controller
         ]);
         if(Auth::attempt(['name'=>$request->name,'password'=>$request->password],$request->has('remember'))){
             session()->flash('success','登录成功!');
-            return redirect()->route('goodsaccount.index');
+            return redirect()->route('management.index');
         }else{
             session()->flash('success','登录失败!');
             return redirect()->route('login.create');

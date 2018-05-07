@@ -14,6 +14,17 @@
                 <label for="exampleInputPassword1">密码</label>
                 <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="密码">
             </div>
+            <div>
+                <label>是否为管理员</label><br/>
+                <input type="checkbox" name="is_admin" {{old('is_admin')==1?'checked':''}} value="1">
+            </div>
+            <div>
+            @foreach($rows as $row)
+                <label>
+                    <input type="checkbox" name="role[]" value="{{$row['id']}}" >{{$row['description']}}<br/>
+                </label>
+            @endforeach
+            </div>
             {{csrf_field()}}
             <button type="submit" class="btn btn-danger">添加</button>
         </form>

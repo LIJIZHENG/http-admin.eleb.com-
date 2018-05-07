@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Admins;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,11 @@ class AdminsController extends Controller
     }
     public function index(){
         if(Auth::user()){
-            $rows=Admins::all();
+            if(Auth::user()->is_admin){
+                $rows=Admins::all();
+            }else {
+                $rows = DB::table('admins')->where('id','=',Auth::user()->id)->get();
+            }
             return view('admins.index',compact('rows'));
         }else{
             session()->flash('success','请登录!');
@@ -26,7 +31,8 @@ class AdminsController extends Controller
         }
     }
     public function create(){
-        return view('admins.create');
+        $rows=Role::all();
+        return view('admins.create',compact('rows'));
     }
     public function store(Request $request){
         $this->validate($request,[
@@ -40,20 +46,29 @@ class AdminsController extends Controller
             'email.email'=>'邮箱格式不正确!',
             'password.required'=>'密码不能为空!'
         ]);
-        Admins::create([
+        $admin=Admins::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request->password),
+            'is_admin'=>$request->is_admin
         ]);
+        $admin->attachRoles($request->role);
         session()->flash('success','添加成功!');
         return redirect()->route('admins.index');
     }
     public function destroy(Admins $admin){
+        $admin->detachRole($admin);
         $admin->delete();
         echo 'success';
     }
     public function edit(Admins $admin){
-         return view('admins.edit',compact('admin'));
+//        dd($admin->is_admin);
+        $a=[];
+        foreach($admin->roles()->get() as $p){
+            $a[]=$p->id;
+        }
+        $rows=Role::all();
+         return view('admins.edit',compact('admin','rows','a'));
     }
     public function update(Request $request,Admins $admin){
         $this->validate($request,[
@@ -67,6 +82,7 @@ class AdminsController extends Controller
         ]);
         $admin->update(['name'=>$request->name,
             'email'=>$request->email]);
+        $admin->syncRoles($request->role);
         session()->flash('success','修改成功!');
         return redirect()->route('admins.index');
     }
@@ -82,7 +98,6 @@ class AdminsController extends Controller
             }else{
                $newPwd=bcrypt($request->newPwd);
                $id=Auth::user()->id;
-//               var_dump($id);die;
                 DB::update("update admins set password='{$newPwd}' where id={$id}");
                 Auth::logout();
                 session()->flash('success','修改密码成功!');

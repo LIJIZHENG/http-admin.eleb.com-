@@ -9,26 +9,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class GoodsaccountController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth', [
-            'except' => ['index']
-        ]);
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth', [
+//            'except' => ['index']
+//        ]);
+//    }
     //显示商家管理列表
     public function index(Request $request){
-        if(Auth::user()){
+//        dd(bcrypt('123'));
+//        if(Auth::user()){
             $query=$request->query();
             $rows=Goodsaccount::where('name','like',"%{$request->name}%")->paginate(3);
             return view('goodsaccount.index',compact('rows','query'));
-        }else{
-            session()->flash('success','请登录!');
-            return redirect()->route('login.create');
-        }
+//        }else{
+//            session()->flash('success','请登录!');
+//            return redirect()->route('login.create');
+//        }
     }
     //显示添加商家
     public function create(){
@@ -94,8 +96,8 @@ class GoodsaccountController extends Controller
             ]);
             Goodsaccount::create([
                 'name' => $request->name,
-                'password' => bcrypt($request->password),
-                'email' => $request->email,
+                'password' =>bcrypt($request->password),
+                'email' =>$request->email,
                 'logo' =>$request->logo,
                 'goods_class_id' => $request->goods_class_id,
                 'is_by' => 1,
@@ -196,6 +198,8 @@ class GoodsaccountController extends Controller
     public function check(Request $request){
 //        var_dump($request->goodsaccount);die;
         DB::update("update goodsaccounts set is_by = 1 where id =$request->goodsaccount");
+        $row=DB::table('goodsaccounts')->where('id','=',$request->goodsaccount)->first();
+         Goodsaccount::email($row->name,$row->email);
         session()->flash('success','审核成功!');
         return redirect()->route('goodsaccount.index');
     }

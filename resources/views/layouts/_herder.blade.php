@@ -14,29 +14,43 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{route('goodsaccount.index')}}">商家账号管理<span class="sr-only">(current)</span></a></li>
-                <li><a href="{{route('goodsclass.index')}}">商家分类管理</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
+               {!! \App\Management::nav() !!}
+            {{--@foreach(\App\Http\Controllers\ManagementController::top() as $row)--}}
+                {{--<li class="dropdown">--}}
+                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$row->menu_name}}<span class="caret"></span></a>--}}
+                    {{--<ul class="dropdown-menu">--}}
+                        {{--@foreach($row->child as $value)--}}
+                            {{--@if (\Illuminate\Support\Facades\Auth::user()->can($value->menu_url))--}}
+                        {{--<li><a href="{{route($value->menu_url)}}">{{$value->menu_name}}</a></li>--}}
+                            {{--@endif--}}
+                        {{--@endforeach--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
+         {{--@endforeach--}}
+                {{--<li class="active"><a href="{{route('goodsaccount.index')}}">商家账号管理<span class="sr-only">(current)</span></a></li>--}}
+                {{--<li><a href="{{route('goodsclass.index')}}">商家分类管理</a></li>--}}
+                {{--<li class="dropdown">--}}
+                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">权限/角色 <span class="caret"></span></a>--}}
+                    {{--<ul class="dropdown-menu">--}}
+                        {{--<li><a href="{{route('permission.index')}}">权限列表</a></li>--}}
+                        {{--<li><a href="{{route('permission.create')}}">添加权限</a></li>--}}
+                        {{--<li><a href="{{route('role.index')}}">角色列表</a></li>--}}
+                        {{--<li><a href="{{route('role.create')}}">添加角色</a></li>--}}
+                        {{--<li role="separator" class="divider"></li>--}}
+                        {{--<li><a href="#">Separated link</a></li>--}}
+                        {{--<li role="separator" class="divider"></li>--}}
+                        {{--<li><a href="#">One more separated link</a></li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
             </ul>
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+            {{--<form class="navbar-form navbar-left">--}}
+                {{--<div class="form-group">--}}
+                    {{--<input type="text" class="form-control" placeholder="Search">--}}
+                {{--</div>--}}
+                {{--<button type="submit" class="btn btn-default">Submit</button>--}}
+            {{--</form>--}}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{route('admins.index')}}">管理员管理</a></li>
+                {{--<li><a href="{{route('admins.index')}}">管理员管理</a></li>--}}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">菜单<span class="caret"></span></a>
                     <ul class="dropdown-menu">

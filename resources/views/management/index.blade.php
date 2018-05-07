@@ -5,34 +5,31 @@
         <table class="table table-bordered">
             <tr>
                 <th>ID</th>
-                <th>用户名</th>
-                <th>邮箱</th>
-                <th>等级</th>
-                @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+                <th>菜单名称</th>
                 <th>操作</th>
-                @endif
             </tr>
             @foreach($rows as $row)
-            <tr data-id="{{$row->id}}">
-                <td>{{$row->id}}</td>
-                <td>{{$row->name}}</td>
-                <td>{{$row->email}}</td>
-                <td>{{$row->is_admin==1?'超级管理员':'普通管理员'}}</td>
-                @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+            <tr>
+                <td>{{$row['id']}}</td>
+                <td>{{$row['name_txt']}}</td>
                 <td>
-                    <a href="{{route('admins.edit',['admins'=>$row])}}" class="btn btn-warning">修改</a>
+                    @role('management.edit')
+                    <a href="{{route('management.edit',['management'=>$row])}}" class="btn btn-group">修改</a>
+                    @endrole
+                    @role('management.destroy')
                     <button class="btn btn-primary">删除</button>
+                    @endrole
                 </td>
-               @endif
             </tr>
             @endforeach
-            @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+            @role('management.create')
             <tr>
-                <td colspan="6">
-                    <a href="{{route('admins.create')}}" class="btn btn-danger">添加</a>
+                <td colspan="4">
+
+                    <a href="{{route('management.create')}}" class="btn btn-danger">添加</a>
                 </td>
             </tr>
-            @endif
+            @endrole
         </table>
     </div>
 @stop
@@ -44,7 +41,7 @@
                 var id=tr.data('id');
                 $.ajax({
                     type: "DELETE",
-                    url: "admins/"+id,
+                    url: "management/"+id,
                     data: "_token={{csrf_token()}}",
                     success: function(msg){
                         tr.remove()
@@ -52,5 +49,5 @@
                 })
             }
         });
-   </script>
+    </script>
 @stop

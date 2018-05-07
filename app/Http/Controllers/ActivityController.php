@@ -16,14 +16,17 @@ class ActivityController extends Controller
         ]);
     }
     public function index(){
-      if(Auth::user()){
-          $rows=Activity::all();
-          return view('activity.index',compact('rows'));
-      }else{
-          session()->flash('success','请登录!');
-          return redirect()->route('login.create');
-      }
-    }
+//        if (Auth::user()->can('admins.index')){
+            if(Auth::user()){
+                $rows=Activity::all();
+                return view('activity.index',compact('rows'));
+            }else{
+                session()->flash('success','请登录!');
+                return redirect()->route('login.create');
+            }
+        }
+
+//    }
     public function create(){
         return view('activity.create');
     }
