@@ -12,7 +12,9 @@ class EventController extends Controller
     public function index(){
         $rows=Event::all();
         $time=time();
-        return view('event.index',compact('rows','time'));
+        $content= view('event.index',compact('rows','time'))->render();
+        file_put_contents('list.html',$content);
+         return redirect('list.html');
     }
 
     public function create(){
@@ -36,7 +38,10 @@ class EventController extends Controller
     }
 
     public function show(Event $event){
-        return view('event.show',compact('event'));
+//        dd($event->id);
+        $show=view('event.show',compact('event'))->render();
+        file_put_contents('show'.$event->id.'html',$show);
+        return redirect('show'.$event->id.'html');
     }
 
     public function edit(Event $event){

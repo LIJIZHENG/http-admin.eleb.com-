@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">饿了吧</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+               <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商品分类管理 <span class="caret"></span></a>
+                        <ul class="dropdown-menu"><li><a href="http://admin.eleb.com/goodsclass">商品分类列表</a></li><li><a href="http://admin.eleb.com/goodsclass/create">商品分类添加</a></li></ul></li><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">商品家管理 <span class="caret"></span></a>
+                        <ul class="dropdown-menu"><li><a href="http://admin.eleb.com/goodsaccount">商家列表</a></li><li><a href="http://admin.eleb.com/goodsaccount/create">添加商家</a></li></ul></li><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">菜单管理 <span class="caret"></span></a>
+                        <ul class="dropdown-menu"><li><a href="http://admin.eleb.com/management/create">添加菜单</a></li><li><a href="http://admin.eleb.com/management">菜单列表</a></li></ul></li><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">管理员管理 <span class="caret"></span></a>
+                        <ul class="dropdown-menu"><li><a href="http://admin.eleb.com/admins">管理员列表</a></li><li><a href="http://admin.eleb.com/admins/create">管理员添加</a></li></ul></li><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">角色管理 <span class="caret"></span></a>
+                        <ul class="dropdown-menu"><li><a href="http://admin.eleb.com/role/create">角色添加</a></li><li><a href="http://admin.eleb.com/role">角色列表</a></li></ul></li><li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">权限管理 <span class="caret"></span></a>
+                        <ul class="dropdown-menu"><li><a href="http://admin.eleb.com/permission">权限列表</a></li><li><a href="http://admin.eleb.com/permission/create">权限添加</a></li></ul></li>
+            
+                
+                    
+                    
+                        
+                            
+                        
+                            
+                        
+                    
+                
+         
+                
+                
+                
+                    
+                    
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    
+                
+            </ul>
+            
+                
+                    
+                
+                
+            
+            <ul class="nav navbar-nav navbar-right">
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">菜单<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://admin.eleb.com/revise">修改密码</a></li>
+                                                                        <li role="separator" class="divider"></li>
+                                                <li>
+                            <form action="http://admin.eleb.com/logout" method="post"><input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="y3zqnicaOBkh8NN36akTcC3cmid8gzKFr1G6ySw8"><input type="submit" value="退出登录"></form></li>
+                                             </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>        <table class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <th>活动名称</th>
+                <th>报名开始时间</th>
+                <th>报名结束时间</th>
+                <th>开奖日期</th>
+                <th>报名人数限制</th>
+                <th>是否已开奖</th>
+                <th>操作</th>
+            </tr>
+                        <tr data-id="3">
+                <td>3</td>
+                <td>送自行车</td>
+                <td>2018-05-09</td>
+                <td>2018-05-10</td>
+                <td>2018-05-10</td>
+                <td>0</td>
+                <td>是</td>
+                <td>
+                    <a href="http://admin.eleb.com/event/3/edit" class="btn btn-danger">修改</a>
+                    <button class="btn btn-primary">删除</button>
+                    <a href="http://admin.eleb.com/event/3" class="btn btn-danger">查看活动详情</a>
+                    <a href="/apply?id=3" class="btn btn-danger">报名情况</a>
+                    <a href="http://admin.eleb.com/enevt_prize/create?id=3" class="btn btn-danger">添加活动奖品</a>
+                                    </td>
+            </tr>
+                        <tr data-id="4">
+                <td>4</td>
+                <td>送手机</td>
+                <td>2018-05-07</td>
+                <td>2018-05-08</td>
+                <td>2018-05-07</td>
+                <td>3</td>
+                <td>是</td>
+                <td>
+                    <a href="http://admin.eleb.com/event/4/edit" class="btn btn-danger">修改</a>
+                    <button class="btn btn-primary">删除</button>
+                    <a href="http://admin.eleb.com/event/4" class="btn btn-danger">查看活动详情</a>
+                    <a href="/apply?id=4" class="btn btn-danger">报名情况</a>
+                    <a href="http://admin.eleb.com/enevt_prize/create?id=4" class="btn btn-danger">添加活动奖品</a>
+                                    </td>
+            </tr>
+                        <tr data-id="5">
+                <td>5</td>
+                <td>hhh</td>
+                <td>2018-05-07</td>
+                <td>2018-05-07</td>
+                <td>2018-05-07</td>
+                <td>5</td>
+                <td>否</td>
+                <td>
+                    <a href="http://admin.eleb.com/event/5/edit" class="btn btn-danger">修改</a>
+                    <button class="btn btn-primary">删除</button>
+                    <a href="http://admin.eleb.com/event/5" class="btn btn-danger">查看活动详情</a>
+                    <a href="/apply?id=5" class="btn btn-danger">报名情况</a>
+                    <a href="http://admin.eleb.com/enevt_prize/create?id=5" class="btn btn-danger">添加活动奖品</a>
+                                    </td>
+            </tr>
+                        <tr>
+                <td colspan="8">
+                    <a href="/lottery" class="btn btn-danger">所有活动抽奖结果</a>
+                    <a href="http://admin.eleb.com/event/create" class="btn btn-danger">添加</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="/js/jquery-3.2.1.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="/js/bootstrap.js"></script>
+<script>
+    $('#myModal').modal('hide');
+</script>
+    <script>
+        $(".btn-primary").click(function () {
+            var tr=$(this).closest('tr');
+            if(confirm('是否删除数据!')){
+                var id=tr.data('id');
+                $.ajax({
+                    type: "DELETE",
+                    url: "event/"+id,
+                    data: "_token=y3zqnicaOBkh8NN36akTcC3cmid8gzKFr1G6ySw8",
+                    success: function(msg){
+                        tr.remove()
+                    }
+                })
+            }
+        });
+    </script>
+</body>
+</html>

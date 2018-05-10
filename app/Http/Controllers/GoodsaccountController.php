@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Goodsaccount;
 use App\Goodsclass;
 use App\Goodsnews;
+use App\SphinxClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -22,11 +23,43 @@ class GoodsaccountController extends Controller
 //    }
     //显示商家管理列表
     public function index(Request $request){
+//        require ( "sphinxapi.php" );
+        $cl = new SphinxClient();
+        $cl->SetServer ( '127.0.0.1', 9312);
+//$cl->SetServer ( '10.6.0.6', 9312);
+//$cl->SetServer ( '10.6.0.22', 9312);
+//$cl->SetServer ( '10.8.8.2', 9312);
+        $cl->SetConnectTimeout ( 10 );
+        $cl->SetArrayResult ( true );
+// $cl->SetMatchMode ( SPH_MATCH_ANY);
+        $cl->SetMatchMode ( SPH_MATCH_EXTENDED2);
+        $cl->SetLimits(0, 1000);
+        $info =$request->name;
+//        $info ='lijizheng';
+        $res = $cl->Query($info, 'shops');//shopstore_search
+//print_r($cl);
+        if($res['total']){
+            foreach ($res['matches'] as $match){
+              $row=Goodsaccount::where('id','=',$match['id'])->first();
+              $rows[]=$row;
+//              $rows=$users = DB::table('goodsaccounts')
+//                  ->whereIn('id', [1, 2, 3])
+//                  ->paginate(3);
+            }
+
+        }else{
+//            $query=$request->query();
+            $rows=Goodsaccount::all();
+        }
+        return view('goodsaccount.index',compact('rows','query'));
+//        print_r($res['total']);
+
+//        if($res->){}
+
 //        dd(bcrypt('123'));
 //        if(Auth::user()){
-            $query=$request->query();
-            $rows=Goodsaccount::where('name','like',"%{$request->name}%")->paginate(3);
-            return view('goodsaccount.index',compact('rows','query'));
+
+//            return view('goodsaccount.index',compact('rows','query'));
 //        }else{
 //            session()->flash('success','请登录!');
 //            return redirect()->route('login.create');
