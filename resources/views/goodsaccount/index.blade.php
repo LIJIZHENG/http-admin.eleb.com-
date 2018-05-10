@@ -40,7 +40,7 @@
             </tr>
         </table>
     </div>
-    {{--{{$rows->links()}}--}}
+    {{$rows->links()}}
 @stop
 @section('js')
     <script>
